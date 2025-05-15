@@ -1,0 +1,214 @@
+/* Additional styles for the images page */
+
+.courses-archive {
+    padding: 1rem;
+}
+
+.month-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.month-card {
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.month-card:hover {
+    transform: translateY(-8px);
+}
+
+.month-header {
+    padding: 1.2rem;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping on very small screens */
+}
+
+.month-header h3 {
+    font-size: 1.4rem;
+    margin: 0;
+    color: #fff;
+    margin-bottom: 0.5rem; /* Space for when badge wraps */
+}
+
+.course-badge {
+    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Improved responsive month preview */
+.month-preview {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    padding-top: 56.25%; /* 16:9 aspect ratio */
+}
+
+.month-preview img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.month-card:hover .month-preview img {
+    transform: scale(1.05);
+}
+
+.month-info {
+    padding: 1.2rem;
+}
+
+.month-info p {
+    margin-bottom: 1.2rem;
+}
+
+/* Gallery page styles for individual months */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.gallery-item {
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Improved responsive gallery image */
+.gallery-image {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    padding-top: 75%; /* 4:3 aspect ratio */
+}
+
+.gallery-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-image img {
+    transform: scale(1.05);
+}
+
+.gallery-caption {
+    padding: 1rem;
+}
+
+.gallery-caption h4 {
+    margin-bottom: 0.5rem;
+    color: var(--accent-color);
+}
+
+.back-link {
+    display: inline-block;
+    margin: 1rem;
+    padding: 0.8rem 1.2rem;
+    background-color: var(--secondary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.back-link i {
+    margin-right: 0.5rem;
+}
+
+.back-link:hover {
+    background-color: var(--accent-color);
+}
+
+/* Add active state for menu */
+.menu-item.active {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* Add this to improve image loading performance on mobile */
+.gallery-image img, .month-preview img {
+    /* Enable hardware acceleration */
+    will-change: transform;
+    /* Use progressive loading for large images */
+    loading: "lazy";
+}
+
+/* Add to maintain proper logo size */
+header .logo {
+    max-width: 180px;
+    height: auto;
+}
+
+@media (max-width: 380px) {
+    header .logo {
+        max-width: 150px;
+    }
+    
+    .month-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .course-badge {
+        margin-top: 8px;
+    }
+    
+    .gallery-caption h4 {
+        font-size: 1.1rem;
+    }
+    
+    .rainbow-button {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Responsive styles */
+@media (min-width: 768px) {
+    .month-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Use slightly different aspect ratio for desktop */
+    .gallery-image {
+        padding-top: 66.67%; /* 3:2 aspect ratio */
+    }
+}
+
+@media (min-width: 992px) {
+    .month-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

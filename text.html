@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRSF Gallery Test Page</title>
+    <!-- External libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/tiny-slider.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #111;
+            --secondary-color: #333;
+            --accent-color: #f70;
+            --text-color: #fff;
+            --gray-color: #888;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+        
+        header {
+            padding: 1.5rem;
+            text-align: center;
+            background-color: var(--primary-color);
+            position: relative;
+        }
+        
+        h1 {
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+
+        h2 {
+            margin: 1.5rem 0;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .gallery-container {
+            padding: 2rem 1rem;
+            margin-bottom: 3rem;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .gallery-description {
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+        
+        /* Option 1: Simple Touch-Friendly Slider */
+        .simple-gallery {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .simple-gallery-container {
+            display: flex;
+            transition: transform 0.3s ease;
+        }
+        
+        .simple-gallery-item {
+            min-width: 100%;
+            position: relative;
+        }
+        
+        .simple-gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .simple-gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .simple-gallery-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .simple-gallery-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .simple-gallery-dot {
+            width: 12px;
+            height: 12px;
+            background-color: var(--gray-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .simple-gallery-dot.active {
+            background-color: var(--accent-color);
+        }
+        
+        .simple-gallery-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--text-color);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+        
+        .simple-gallery-arrow.prev {
+            left: 10px;
+        }
+        
+        .simple-gallery-arrow.next {
+            right: 10px;
+        }
+        
+        /* Option 2: CSS Scroll Snap Gallery */
+        .snap-gallery {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 1rem;
+            padding: 0.5rem 0;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .snap-gallery::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .snap-gallery-item {
+            flex: 0 0 80%;
+            scroll-snap-align: center;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .snap-gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .snap-gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Option 3: Swiper Slider */
+        .swiper {
+            width: 100%;
+            height: 220px;
+            border-radius: 8px;
+        }
+        
+        .swiper-slide {
+            position: relative;
+        }
+        
+        .swiper-slide img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .swiper-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Option 4: Progressive Loading Gallery */
+        .progressive-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .progressive-gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .progressive-gallery-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .progressive-gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .progressive-gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .load-more {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 1.5rem auto;
+            display: block;
+            font-weight: bold;
+        }
+        
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .snap-gallery-item {
+                flex: 0 0 40%;
+            }
+            
+            .progressive-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CRSF Gallery Test Page</h1>
+        <p>Compare different gallery styles to find the best one for your site</p>
+    </header>
+    
+    <!-- Option 1: Simple Touch-Friendly Slider -->
+    <div class="gallery-container">
+        <h2>Option 1: Simple Touch-Friendly Slider</h2>
+        <p class="gallery-description">A lightweight slider with navigation arrows and dots. Good for showcasing a few key images.</p>
+        
+        <div class="simple-gallery">
+            <button class="simple-gallery-arrow prev">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <div class="simple-gallery-container">
+                <div class="simple-gallery-item">
+                    <img src="https://via.placeholder.com/800x400?text=Badminton+Stringing" alt="Badminton Stringing">
+                    <div class="simple-gallery-caption">Professional Badminton Stringing Techniques</div>
+                </div>
+                <div class="simple-gallery-item">
+                    <img src="https://via.placeholder.com/800x400?text=Tennis+Stringing" alt="Tennis Stringing">
+                    <div class="simple-gallery-caption">Tennis Racket Stringing Workshop</div>
+                </div>
+                <div class="simple-gallery-item">
+                    <img src="https://via.placeholder.com/800x400?text=Overseas+Experts" alt="Overseas Experts">
+                    <div class="simple-gallery-caption">Overseas Expert Stringers Sharing Sessions</div>
+                </div>
+                <div class="simple-gallery-item">
+                    <img src="https://via.placeholder.com/800x400?text=Stringing+Tools" alt="Stringing Tools">
+                    <div class="simple-gallery-caption">Professional Stringing Equipment Training</div>
+                </div>
+                <div class="simple-gallery-item">
+                    <img src="https://via.placeholder.com/800x400?text=Certification" alt="Certification">
+                    <div class="simple-gallery-caption">Stringing Certification Programs</div>
+                </div>
+            </div>
+            
+            <button class="simple-gallery-arrow next">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <div class="simple-gallery-controls">
+                <div class="simple-gallery-dots">
+                    <div class="simple-gallery-dot active" data-index="0"></div>
+                    <div class="simple-gallery-dot" data-index="1"></div>
+                    <div class="simple-gallery-dot" data-index="2"></div>
+                    <div class="simple-gallery-dot" data-index="3"></div>
+                    <div class="simple-gallery-dot" data-index="4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Option 2: CSS Scroll Snap Gallery -->
+    <div class="gallery-container">
+        <h2>Option 2: CSS Scroll Snap Gallery</h2>
+        <p class="gallery-description">A smooth, native-feeling gallery using CSS scroll-snap. Great performance on mobile and very lightweight.</p>
+        
+        <div class="snap-gallery">
+            <div class="snap-gallery-item">
+                <img src="https://via.placeholder.com/800x400?text=Badminton+Stringing" alt="Badminton Stringing">
+                <div class="snap-gallery-caption">Professional Badminton Stringing Techniques</div>
+            </div>
+            <div class="snap-gallery-item">
+                <img src="https://via.placeholder.com/800x400?text=Tennis+Stringing" alt="Tennis Stringing">
+                <div class="snap-gallery-caption">Tennis Racket Stringing Workshop</div>
+            </div>
+            <div class="snap-gallery-item">
+                <img src="https://via.placeholder.com/800x400?text=Overseas+Experts" alt="Overseas Experts">
+                <div class="snap-gallery-caption">Overseas Expert Stringers Sharing Sessions</div>
+            </div>
+            <div class="snap-gallery-item">
+                <img src="https://via.placeholder.com/800x400?text=Stringing+Tools" alt="Stringing Tools">
+                <div class="snap-gallery-caption">Professional Stringing Equipment Training</div>
+            </div>
+            <div class="snap-gallery-item">
+                <img src="https://via.placeholder.com/800x400?text=Certification" alt="Certification">
+                <div class="snap-gallery-caption">Stringing Certification Programs</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Option 3: Swiper Slider -->
+    <div class="gallery-container">
+        <h2>Option 3: Swiper Slider</h2>
+        <p class="gallery-description">A feature-rich slider with smooth transitions and built-in navigation controls. Good for professional-looking galleries.</p>
+        
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="https://via.placeholder.com/800x400?text=Badminton+Stringing" alt="Badminton Stringing">
+                    <div class="swiper-caption">Professional Badminton Stringing Techniques</div>
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://via.placeholder.com/800x400?text=Tennis+Stringing" alt="Tennis Stringing">
+                    <div class="swiper-caption">Tennis Racket Stringing Workshop</div>
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://via.placeholder.com/800x400?text=Overseas+Experts" alt="Overseas Experts">
+                    <div class="swiper-caption">Overseas Expert Stringers Sharing Sessions</div>
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://via.placeholder.com/800x400?text=Stringing+Tools" alt="Stringing Tools">
+                    <div class="swiper-caption">Professional Stringing Equipment Training</div>
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://via.placeholder.com/800x400?text=Certification" alt="Certification">
+                    <div class="swiper-caption">Stringing Certification Programs</div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+    
+    <!-- Option 4: Progressive Loading Gallery -->
+    <div class="gallery-container">
+        <h2>Option 4: Progressive Loading Gallery</h2>
+        <p class="gallery-description">A grid-based gallery that loads images as needed. Good for showing many images without performance issues.</p>
+        
+        <div class="progressive-gallery" id="progressiveGallery">
+            <!-- Initial images -->
+            <div class="progressive-gallery-item">
+                <img src="https://via.placeholder.com/400x300?text=Badminton+Stringing" alt="Badminton Stringing">
+                <div class="progressive-gallery-caption">Professional Badminton Stringing Techniques</div>
+            </div>
+            <div class="progressive-gallery-item">
+                <img src="https://via.placeholder.com/400x300?text=Tennis+Stringing" alt="Tennis Stringing">
+                <div class="progressive-gallery-caption">Tennis Racket Stringing Workshop</div>
+            </div>
+            <div class="progressive-gallery-item">
+                <img src="https://via.placeholder.com/400x300?text=Overseas+Experts" alt="Overseas Experts">
+                <div class="progressive-gallery-caption">Overseas Expert Stringers Sharing Sessions</div>
+            </div>
+        </div>
+        
+        <button class="load-more" id="loadMoreBtn">Load More Images</button>
+    </div>
+    
+    <!-- External libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/min/tiny-slider.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
+    
+    <script>
+        // Option 1: Simple Touch-Friendly Slider
+        document.addEventListener('DOMContentLoaded', function() {
+            const simpleGallery = document.querySelector('.simple-gallery-container');
+            const dots = document.querySelectorAll('.simple-gallery-dot');
+            const prevBtn = document.querySelector('.simple-gallery-arrow.prev');
+            const nextBtn = document.querySelector('.simple-gallery-arrow.next');
+            const itemCount = document.querySelectorAll('.simple-gallery-item').length;
+            let currentIndex = 0;
+            
+            // Function to update slider position
+            function updateSlider() {
+                simpleGallery.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                // Update active dot
+                dots.forEach((dot, index) => {
+                    if (index === currentIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Event listeners for arrows
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : itemCount - 1;
+                updateSlider();
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex < itemCount - 1) ? currentIndex + 1 : 0;
+                updateSlider();
+            });
+            
+            // Event listeners for dots
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    currentIndex = parseInt(dot.dataset.index);
+                    updateSlider();
+                });
+            });
+            
+            // Touch events for mobile
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            simpleGallery.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            simpleGallery.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                if (touchEndX < touchStartX) {
+                    // Swipe left
+                    currentIndex = (currentIndex < itemCount - 1) ? currentIndex + 1 : 0;
+                } else if (touchEndX > touchStartX) {
+                    // Swipe right
+                    currentIndex = (currentIndex > 0) ? currentIndex - 1 : itemCount - 1;
+                }
+                updateSlider();
+            }
+        });
+        
+        // Option 3: Swiper Slider
+        document.addEventListener('DOMContentLoaded', function() {
+            const swiper = new Swiper('.swiper', {
+                loop: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+            });
+        });
+        
+        // Option 4: Progressive Loading Gallery
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            const gallery = document.getElementById('progressiveGallery');
+            let loadCount = 0;
+            
+            // Additional images to load
+            const additionalImages = [
+                {
+                    src: 'https://via.placeholder.com/400x300?text=Stringing+Tools',
+                    alt: 'Stringing Tools',
+                    caption: 'Professional Stringing Equipment Training'
+                },
+                {
+                    src: 'https://via.placeholder.com/400x300?text=Certification',
+                    alt: 'Certification',
+                    caption: 'Stringing Certification Programs'
+                },
+                {
+                    src: 'https://via.placeholder.com/400x300?text=Workshop+1',
+                    alt: 'Workshop 1',
+                    caption: 'Advanced Stringing Workshop'
+                },
+                {
+                    src: 'https://via.placeholder.com/400x300?text=Workshop+2',
+                    alt: 'Workshop 2',
+                    caption: 'String Selection Masterclass'
+                }
+            ];
+            
+            loadMoreBtn.addEventListener('click', function() {
+                if (loadCount < additionalImages.length) {
+                    const image = additionalImages[loadCount];
+                    const item = document.createElement('div');
+                    item.className = 'progressive-gallery-item';
+                    item.innerHTML = `
+                        <img src="${image.src}" alt="${image.alt}">
+                        <div class="progressive-gallery-caption">${image.caption}</div>
+                    `;
+                    gallery.appendChild(item);
+                    loadCount++;
+                    
+                    // Hide button when all images are loaded
+                    if (loadCount >= additionalImages.length) {
+                        loadMoreBtn.style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

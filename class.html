@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Classes - MSRSF Group</title>
+    <link rel="stylesheet" href="class.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+    <div class="content-wrapper">
+        <header>
+            <h1>Our Classes</h1>
+            <p class="tagline">Professional Racket Stringing Training Programs</p>
+        </header>
+        
+        <div class="courses-container">
+            <div id="courses-grid" class="course-grid">
+                <!-- Courses will be populated by JavaScript -->
+            </div>
+            
+            <div id="no-courses" class="no-courses" style="display: none;">
+                <i class="fas fa-clock"></i>
+                <h2>Stay Tuned!</h2>
+                <p>We're preparing exciting new stringing courses for you. Our expert instructors are working hard to bring you the best professional training programs. Check back soon for updates on our upcoming classes!</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Course Modal -->
+    <div id="course-modal" class="course-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title"></h2>
+            </div>
+            <div class="modal-details" id="modal-details">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+            <button class="register-button" id="register-btn" onclick="registerCourse()">
+                Register Now
+            </button>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="bottom-menu">
+            <a href="welcome.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="classes.html" class="menu-item active">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Classes</span>
+            </a>
+            <a href="images.html" class="menu-item">
+                <i class="fas fa-images"></i>
+                <span>Images</span>
+            </a>
+            <a href="construction.html?section=members" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Members</span>
+            </a>
+            <a href="about.html" class="menu-item">
+                <i class="fas fa-info-circle"></i>
+                <span>About</span>
+            </a>
+        </div>
+    </footer>
+
+    <script src="class.js"></script>
+</body>
+</html>

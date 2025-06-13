@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>January 2025 Course - MSRSF Group</title>
     <link rel="stylesheet" href="welcome.css">
-    <link rel="stylesheet" href="styles/images.css">
+    <link rel="stylesheet" href="images.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <style>
         /* Mobile-first optimized gallery styles */
@@ -321,7 +321,7 @@
                 <span>Members</span>
             </a>
             <a href="construction.html?section=about" class="menu-item">
-                <i class="fas fa-info-circle"></i>-------==
+                <i class="fas fa-info-circle"></i>
                 <span>About</span>
             </a>
         </div>
@@ -404,6 +404,7 @@
                 `;
 
                 const img = galleryItem.querySelector('img');
+                let errorHandled = false; // Prevent infinite loop
                 
                 // Handle image load
                 img.onload = () => {
@@ -411,12 +412,17 @@
                     img.classList.add('loaded');
                 };
 
-                // Handle image error
+                // Handle image error - FIXED VERSION
                 img.onerror = () => {
-                    img.src = '/api/placeholder/300/300';
-                    img.alt = `Placeholder Image ${imageNumber}`;
-                    img.classList.remove('loading');
-                    img.classList.add('loaded');
+                    if (!errorHandled) {
+                        errorHandled = true;
+                        
+                        // Use a proper SVG data URL placeholder instead of broken file path
+                        img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2YwZjBmMCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+PC9zdmc+';
+                        img.alt = `Image ${imageNumber} not found`;
+                        img.classList.remove('loading');
+                        img.classList.add('loaded');
+                    }
                 };
 
                 // Add click handler for lightbox

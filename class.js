@@ -159,7 +159,7 @@ function closeModal() {
 // Function to handle course registration
 function registerCourse() {
     // Here you can integrate with Google Forms or your registration system
-    alert('Proceeding to register site');
+    alert('Registration feature will be integrated with Google Forms or your preferred registration system.');
 Example: window.open('https://docs.google.com/forms/d/e/1FAIpQLScPvYhPa3JH5-AfWSQ8FxmuNn8y9nKhcvXFhTCY4FbQ6RPKtA/viewform?usp=header');
 }
 

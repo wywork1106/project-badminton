@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>MSRSF Certified Stringers - Professional Members Directory</title>
+    <link rel="stylesheet" href="members.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+    <div class="content-wrapper">
+        <header>
+            <img src="images/imageeditv2.jpg" alt="MSRSF Group Logo" class="logo" width="220" height="220">
+            <h1>Certified Stringers</h1>
+            <p class="tagline">USRSA Certified Professional Stringers in Malaysia</p>
+        </header>
+        
+        <section class="stats-section">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <i class="fas fa-certificate"></i>
+                    <div class="stat-number" id="totalMembers">5</div>
+                    <div class="stat-label">Certified Stringers</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div class="stat-number" id="totalLocations">5</div>
+                    <div class="stat-label">Locations</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-city"></i>
+                    <div class="stat-number" id="totalStates">4</div>
+                    <div class="stat-label">States</div>
+                </div>
+            </div>
+        </section>
+
+<div class="search-filter-section">
+    <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search by name, location, or city...">
+        <button id="clearSearch" style="display: none;"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="Kuala Lumpur">KL</button>
+        <button class="filter-btn" data-filter="Selangor">Selangor</button>
+        <button class="filter-btn" data-filter="Johor">Johor</button>
+        <button class="filter-btn" data-filter="Sarawak">Sarawak</button>
+    </div>
+</div>
+
+        <section class="members-section">
+            <h2><i class="fas fa-users"></i> Our Certified Stringers</h2>
+            <div class="members-grid" id="membersGrid">
+                <!-- Members will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Member Detail Modal -->
+        <div class="modal-overlay" id="memberModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle"></h3>
+                    <button class="close-btn" onclick="closeModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="bottom-menu">
+            <a href="welcome.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="classconstruction.html" class="menu-item">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Classes</span>
+            </a>
+            <a href="images.html" class="menu-item">
+                <i class="fas fa-images"></i>
+                <span>Images</span>
+            </a>
+            <a href="members.html" class="menu-item active">
+                <i class="fas fa-users"></i>
+                <span>Members</span>
+            </a>
+            <a href="about.html" class="menu-item">
+                <i class="fas fa-info-circle"></i>
+                <span>About</span>
+            </a>
+        </div>
+    </footer>
+
+    <script src="members.js"></script>
+</body>
+
+<div class="floating-contact">
+    <button class="floating-btn" id="floatingContact">
+        <i class="fas fa-phone"></i>
+    </button>
+    <div class="floating-menu" id="floatingMenu">
+        <a href="tel:+60122726166" class="floating-menu-item">
+            <i class="fas fa-phone"></i>
+            <span>Call KL</span>
+        </a>
+        <a href="https://wa.me/60122726166" class="floating-menu-item" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+            <span>WhatsApp</span>
+        </a>
+        <a href="mailto:info@msrsf.com" class="floating-menu-item">
+            <i class="fas fa-envelope"></i>
+            <span>Email</span>
+        </a>
+    </div>
+</div>
+</html>

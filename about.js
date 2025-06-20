@@ -246,4 +246,29 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 600);
         });
     }
+
+// Map functionality for locations
+    function openMap(location) {
+        let address = '';
+        switch(location) {
+            case 'kl':
+                address = 'Boustead Parking Building, 9th Floor, Lorong Ceylon, Bukit Ceylon, Kuala Lumpur 50200, Malaysia';
+                break;
+            case 'penang':
+                address = '73-2,Jalan Tasek Gelugor Utama 1, Taman Tasek Gelugor Utama, 13300 Tasek Gelugor, Pulau Pinang, Malaysia';
+                break;
+            case 'johor':
+                address = '9, Jalan Sulam, Taman Sentosa, 80150 Johor Bahru, Malaysia';
+                break;
+            default:
+                showNotification('Address not available yet', 'warning');
+                return;
+        }
+        
+        // Create Google Maps URL
+        const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+        window.open(mapsUrl, '_blank');
+        showNotification('Opening Google Maps...', 'success');
+    }
+
 });

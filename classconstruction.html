@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Coming Soon - MSRSF Group</title>
+    <title>Classes - MSRSF Group</title>
     <link rel="stylesheet" href="welcome.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <style>
@@ -34,8 +34,30 @@
         }
         
         .coming-soon-message {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             max-width: 600px;
+            line-height: 1.6;
+        }
+        
+        .class-info {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .class-highlight {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-info {
+            font-style: italic;
+            margin-top: 1rem;
+            color: #ccc;
         }
         
         .go-home-btn {
@@ -48,6 +70,7 @@
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
+            margin-top: 1rem;
         }
         
         .go-home-btn i {
@@ -74,6 +97,10 @@
             .coming-soon-title {
                 font-size: 1.5rem;
             }
+            
+            .class-info {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
@@ -86,17 +113,34 @@
         </header>
         
         <div class="coming-soon-container">
-            <i class="fas fa-tools coming-soon-icon"></i>
-            <h2 class="coming-soon-title">Page Under Construction</h2>
-            <p class="coming-soon-message">We're currently working on this section of our website to bring you the best experience possible. Please check back soon for updates!</p>
+            <i class="fas fa-graduation-cap coming-soon-icon"></i>
+            <h2 class="coming-soon-title">Upcoming Classes</h2>
+            <p class="coming-soon-message">We're excited to announce our upcoming racket stringing workshops and training sessions!</p>
+            
+            <div class="class-info">
+                <div class="class-highlight">📅 Next Class: October 2025</div>
+                <p><strong>⚠️ Limited Slots Available</strong></p>
+                <p>Secure your spot in our comprehensive racket stringing course where you'll learn professional techniques from experienced stringers.</p>
+            </div>
+            
+            <div class="class-info">
+                <div class="class-highlight">📖 Online Booking</div>
+                <p>Online booking system will be announced later. Stay tuned for updates!</p>
+                <div class="contact-info">
+                    For any further inquiries, please reach to Clement -        <a href="https://wa.me/60122726166" class="whatsapp-link">
+                            <i class="fab fa-whatsapp"></i> +60122726166
+                        </a>
+                </div>
+            </div>
+            
             <a href="welcome.html" class="go-home-btn">
                 <i class="fas fa-home"></i> Return to Home
             </a>
         </div>
         
         <section class="about-section">
-            <h2>Stay Connected</h2>
-            <p>We're continuously improving our website to better serve the racket stringing community. While this page is being developed, feel free to explore our home page and image gallery to learn more about our services and previous workshops.</p>
+            <h2>Why Join Our Classes?</h2>
+            <p>Our racket stringing classes are designed for both beginners and those looking to refine their skills. Learn from Malaysia's premier racket stringing specialists and join a community of passionate stringers. With limited slots available, early registration is recommended once booking opens.</p>
         </section>
     </div>
     
@@ -106,7 +150,7 @@
                 <i class="fas fa-home"></i>
                 <span>Home</span>
             </a>
-            <a href="class.html" class="menu-item" id="classes-link">
+            <a href="classconstruction.html" class="menu-item active" id="classes-link">
                 <i class="fas fa-graduation-cap"></i>
                 <span>Classes</span>
             </a>
@@ -114,7 +158,7 @@
                 <i class="fas fa-images"></i>
                 <span>Images</span>
             </a>
-            <a href="construction.html" class="menu-item" id="members-link">
+            <a href="members.html" class="menu-item" id="members-link">
                 <i class="fas fa-users"></i>
                 <span>Members</span>
             </a>
@@ -131,38 +175,13 @@
             const currentPath = window.location.pathname;
             const filename = currentPath.split('/').pop();
             
-            // Find which menu item should be active
-            let activeMenu = 'home';
-            
-            if (filename === 'construction.html') {
-                // Get the query parameter to determine which section was clicked
-                const urlParams = new URLSearchParams(window.location.search);
-                const section = urlParams.get('section');
-                
-                if (section) {
-                    activeMenu = section;
-                }
-            } else if (filename === 'images.html') {
-                activeMenu = 'images';
-            }
-            
             // Remove active class from all menu items
             document.querySelectorAll('.menu-item').forEach(item => {
                 item.classList.remove('active');
             });
             
-            // Add active class to the correct menu item
-            if (activeMenu === 'home') {
-                document.querySelector('.menu-item:first-child').classList.add('active');
-            } else if (activeMenu === 'classes') {
-                document.getElementById('classes-link').classList.add('active');
-            } else if (activeMenu === 'images') {
-                document.querySelector('.menu-item:nth-child(3)').classList.add('active');
-            } else if (activeMenu === 'members') {
-                document.getElementById('members-link').classList.add('active');
-            } else if (activeMenu === 'about') {
-                document.getElementById('about-link').classList.add('active');
-            }
+            // Add active class to classes menu item
+            document.getElementById('classes-link').classList.add('active');
         });
     </script>
 </body>

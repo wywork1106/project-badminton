@@ -493,6 +493,107 @@ footer {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
+/* New location elements styling */
+.location-name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+.location-name i {
+    color: var(--warning-color);
+}
+
+.location-name span {
+    font-weight: 600;
+    color: var(--light-text);
+}
+
+.location-pic {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.location-pic i:first-child {
+    color: var(--warning-color);
+}
+
+.location-pic span {
+    color: var(--light-text);
+    font-weight: 500;
+}
+
+.whatsapp-link {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #25D366;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: auto;
+    background-color: rgba(37, 211, 102, 0.1);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-link:hover {
+    background-color: rgba(37, 211, 102, 0.2);
+    transform: scale(1.05);
+    color: #25D366;
+}
+
+.whatsapp-link i {
+    font-size: 1rem;
+}
+
+.address {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+.address:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.business-hours {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid var(--warning-color);
+}
+
+.business-hours i {
+    color: var(--warning-color);
+    margin-top: 0.2rem;
+}
+
+.hours-text p {
+    margin: 0.2rem 0;
+    color: var(--light-text);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.hours-text strong {
+    color: var(--warning-color);
+    font-weight: 600;
+}
+
 /* Responsive styles */
 @media (min-width: 768px) {
     .organization-grid {
@@ -538,3 +639,4 @@ footer {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+

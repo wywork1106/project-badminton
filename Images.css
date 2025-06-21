@@ -1,4 +1,9 @@
 /* Additional styles for the images page */
+.logo {
+    max-width: 220px;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+}
 
 .courses-archive {
     padding: 1rem;
@@ -153,39 +158,10 @@
 .gallery-image img, .month-preview img {
     /* Enable hardware acceleration */
     will-change: transform;
-    /* Use progressive loading for large images */
-    loading: "lazy";
+
 }
 
-/* Add to maintain proper logo size */
-header .logo {
-    max-width: 180px;
-    height: auto;
-}
 
-@media (max-width: 380px) {
-    header .logo {
-        max-width: 150px;
-    }
-    
-    .month-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .course-badge {
-        margin-top: 8px;
-    }
-    
-    .gallery-caption h4 {
-        font-size: 1.1rem;
-    }
-    
-    .rainbow-button {
-        padding: 0.7rem 1.2rem;
-        font-size: 0.8rem;
-    }
-}
 
 /* Responsive styles */
 @media (min-width: 768px) {

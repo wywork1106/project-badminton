@@ -8,9 +8,9 @@ const membersData = [
         contact: '+60122726166',
         address: 'Boustead Parking Building 9th Floor, Lorong Ceylon, Bukit Ceylon, Kuala Lumpur 50200',
         businessHours: {
-            'Monday - Friday': '3:00 PM – 11:00 PM',
-            'Saturday': '3:00 PM – 11:00 PM', 
-            'Sunday': '12:00 PM – 7:00 PM'
+            'Weekdays': ' 3:00PM – 11:00PM',
+            'Saturday': '3:00PM – 11:00PM', 
+            'Sunday': '12:00PM – 7:00PM'
         },
         specialties: ['Professional Stringing', 'Racket Maintenance', 'Equipment Consultation'],
         certification: 'USRSA Certified',
@@ -25,8 +25,9 @@ const membersData = [
         contact: '+6011-2751 0939',
         address: 'No. 95-3, Jalan Rahmat, 83000 Batu Pahat, Johor',
         businessHours: {
-            'Monday - Saturday': '11:00 AM – 7:00 PM',
-            'Sunday': '1:00 PM – 7:00 PM'
+            'Weekday': '11:00AM – 7:00PM',
+            'Saturday':'11:00AM - 7:00PM',
+            'Sunday': '1:00PM – 7:00PM'
         },
         specialties: ['Professional Stringing', 'String Analysis', 'Performance Optimization'],
         certification: 'USRSA Certified',
@@ -41,9 +42,10 @@ const membersData = [
         contact: '+60163083764',
         address: '26A, Jalan SS 21/62, Damansara Utama, 47400 Petaling Jaya, Selangor',
         businessHours: {
-            'Tuesday - Friday': '10:00 AM – 2:00 PM, 4:00 PM – 8:00 PM',
-            'Saturday': '10:00 AM – 6:00 PM',
-            'Sunday': '12:00 PM – 6:00 PM'
+            'Monday': 'Off',
+            'Tuesday - Friday': '<br>10:00AM – 2:00PM, <br>4:00 PM – 8:00 PM',
+            'Saturday': '10:00AM – 6:00PM',
+            'Sunday': '12:00PM – 6:00PM'
         },
         specialties: ['Professional Stringing', 'Racket Customization', 'Technical Advice'],
         certification: 'USRSA Certified',
@@ -58,7 +60,7 @@ const membersData = [
         contact: '+6016-8161289',
         address: 'Lot 4018, No. 359, Ground Floor Bintulu Town District, Parkcity Commerce Square, Phase 5, Jalan Kambar Burin, 97000 Bintulu, Sarawak',
         businessHours: {
-            'Monday - Saturday': '10:00 AM – 6:00 PM',
+            'Monday - Saturday': '10:00AM – 6:00PM',
             'Sunday': 'Closed'
         },
         specialties: ['Professional Stringing', 'Sports Equipment', 'String Consultation'],
@@ -74,7 +76,7 @@ const membersData = [
         contact: '+60 17-818 9188',
         address: 'Lot 1002& 1003, first floor limbang plaza 98700 Limbang, Sarawak',
         businessHours: {
-            'Monday - Sunday': '10:00 AM – 6:00 PM'
+            'Monday - Sunday': '10:00AM – 6:00PM'
         },
         specialties: ['Professional Stringing', 'Sports Retail', 'Equipment Services'],
         certification: 'USRSA Certified',
@@ -138,11 +140,21 @@ function createMemberCard(member) {
                 <i class="fas fa-phone"></i>
                 <span>${member.contact}</span>
             </div>
-            <div class="detail-item">
-                <i class="fas fa-clock"></i>
-                <span>${getMainBusinessHours(member.businessHours)}</span>
-            </div>
+
+<div class="detail-item">
+    <i class="fas fa-clock"></i>
+    <div class="business-hours-container">
+        <div class="condensed-hours">
+            <strong>Hours:</strong> ${getMainBusinessHours(member.businessHours)}
+            <small style="color: var(--gray-color); display: block; margin-top: 0.2rem;">
+                Click for full schedule
+            </small>
         </div>
+    </div>
+</div>
+
+        </div>
+
         <div class="contact-actions">
             <a href="tel:${member.contact.replace(/\s/g, '')}" class="contact-btn">
                 <i class="fas fa-phone"></i>
@@ -349,6 +361,149 @@ function filterMembersByState(state) {
     });
 }
 
+// Option 1: Show current day + toggle for full schedule
+function createMemberCard(member) {
+    const card = document.createElement('div');
+    card.className = 'member-card';
+    card.onclick = () => openMemberModal(member);
+    
+    const initials = member.name.split(' ').map(n => n[0]).join('').toUpperCase();
+    const currentDayInfo = getCurrentDayBusinessHours(member.businessHours);
+    
+    card.innerHTML = `
+        <div class="member-header">
+            <div class="member-avatar">${initials}</div>
+            <div class="member-info">
+                <h3>${member.name} <span class="certified-badge"><i class="fas fa-certificate"></i> USRSA CERTIFIED</span></h3>
+                <div class="location-name">${member.location}</div>
+            </div>
+        </div>
+        <div class="member-details">
+            <div class="detail-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>${member.city}, ${member.state}</span>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-phone"></i>
+                <span>${member.contact}</span>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-clock"></i>
+                <div class="business-hours-container">
+                    <div class="current-hours-display">
+                        <div class="hour-row">
+                            <strong>${currentDayInfo.day}:</strong> ${currentDayInfo.hours}
+                        </div>
+                        <button class="show-all-hours-btn" onclick="toggleAllHours(event, this)">
+                            <i class="fas fa-chevron-down"></i> View All Hours
+                        </button>
+                    </div>
+                    <div class="all-hours-display" style="display: none;">
+                        ${Object.entries(member.businessHours).map(([day, hours]) => 
+                            `<div class="hour-row"><strong>${day}:</strong> ${hours}</div>`
+                        ).join('')}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="contact-actions">
+            <a href="tel:${member.contact.replace(/\s/g, '')}" class="contact-btn">
+                <i class="fas fa-phone"></i>
+                Call
+            </a>
+            <a href="https://wa.me/${member.contact.replace(/[\s+-]/g, '')}" class="contact-btn whatsapp-btn" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+                WhatsApp
+            </a>
+        </div>
+    `;
+    
+    return card;
+}
+
+// Helper function to get current day's business hours
+function getCurrentDayBusinessHours(businessHours) {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const today = days[new Date().getDay()];
+    
+    // Check if today exists in business hours
+    if (businessHours[today]) {
+        return { day: 'Today', hours: businessHours[today] };
+    }
+    
+    // Check for range patterns like "Monday - Friday"
+    for (const [dayRange, hours] of Object.entries(businessHours)) {
+        if (dayRange.includes('-') && dayRange.includes(today)) {
+            return { day: 'Today', hours: hours };
+        }
+        if (dayRange.toLowerCase().includes('weekday') && [1,2,3,4,5].includes(new Date().getDay())) {
+            return { day: 'Today', hours: hours };
+        }
+        if (dayRange.toLowerCase().includes('weekend') && [0,6].includes(new Date().getDay())) {
+            return { day: 'Today', hours: hours };
+        }
+    }
+    
+    // Fallback to first entry
+    const firstEntry = Object.entries(businessHours)[0];
+    return { day: firstEntry[0], hours: firstEntry[1] };
+}
+
+// Toggle function for showing all hours
+function toggleAllHours(event, button) {
+    event.stopPropagation(); // Prevent opening modal
+    
+    const container = button.closest('.business-hours-container');
+    const currentDisplay = container.querySelector('.current-hours-display');
+    const allDisplay = container.querySelector('.all-hours-display');
+    const icon = button.querySelector('i');
+    const text = button.querySelector('span') || button.childNodes[1];
+    
+    if (allDisplay.style.display === 'none') {
+        allDisplay.style.display = 'block';
+        currentDisplay.style.display = 'none';
+        icon.className = 'fas fa-chevron-up';
+        button.innerHTML = '<i class="fas fa-chevron-up"></i> Show Less';
+    } else {
+        allDisplay.style.display = 'none';
+        currentDisplay.style.display = 'block';
+        icon.className = 'fas fa-chevron-down';
+        button.innerHTML = '<i class="fas fa-chevron-down"></i> View All Hours';
+    }
+}
+
+// Option 2: Smart condensed format
+function getCondensedBusinessHours(businessHours) {
+    const entries = Object.entries(businessHours);
+    
+    // If only 1-2 entries, show all
+    if (entries.length <= 2) {
+        return entries.map(([day, hours]) => `<div class="hour-row"><strong>${day}:</strong> ${hours}</div>`).join('');
+    }
+    
+    // Otherwise show first entry + "& more"
+    const first = entries[0];
+    return `
+        <div class="hour-row"><strong>${first[0]}:</strong> ${first[1]}</div>
+        <div class="hour-row more-hours">+ ${entries.length - 1} more schedules</div>
+    `;
+}
+
+// Option 3: Status-based display
+function getBusinessStatus(businessHours) {
+    const now = new Date();
+    const currentDay = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][now.getDay()];
+    const currentTime = now.getHours() * 100 + now.getMinutes();
+    
+    // Simple status check (you'd need to parse the actual hours for full accuracy)
+    const todayHours = businessHours[currentDay] || businessHours['Monday - Friday'] || businessHours['Weekdays'];
+    
+    if (!todayHours || todayHours.toLowerCase().includes('closed') || todayHours.toLowerCase().includes('off')) {
+        return { status: 'Closed', class: 'closed', hours: 'Closed today' };
+    }
+    
+    return { status: 'Open', class: 'open', hours: todayHours };
+}
 
 // Export functions for external use (if needed)
 window.MSRSF = {

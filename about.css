@@ -36,7 +36,6 @@ header {
 .logo {
     max-width: 220px;
     margin-bottom: 1rem;
-    border-radius: 50%;
     transition: transform 0.3s ease;
 }
 

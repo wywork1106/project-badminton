@@ -30,8 +30,10 @@ header {
 }
 
 .logo {
-    max-width: 220px;
-    margin-bottom: 1rem;
+   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 2;
 }
 
 h1 {

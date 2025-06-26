@@ -14,6 +14,7 @@ const membersData = [
         },
         specialties: ['Professional Stringing', 'Racket Maintenance', 'Equipment Consultation'],
         certification: 'USRSA Certified',
+        
         mapPosition: { top: '42%', left: '35%' } // KL position
     },
     {

@@ -250,7 +250,9 @@ document.addEventListener('DOMContentLoaded', function() {
         closeBtn.className = 'news-close';
         closeBtn.setAttribute('aria-label', 'Close announcement');
         
-        newsBanner.appendChild(whatsappBtn);
+        // Insert WhatsApp button after the news content
+        const newsContent = newsBanner.querySelector('.news-content');
+        newsContent.appendChild(whatsappBtn);
         newsBanner.appendChild(closeBtn);
         
         // WhatsApp click handler
@@ -393,11 +395,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 display: flex;
                 align-items: center;
                 gap: 8px;
-                position: absolute;
-                bottom: 15px;
-                right: 60px;
+                margin-top: 10px;
+                margin-left: 1rem;
                 transition: all 0.3s ease;
                 z-index: 10;
+                width: fit-content;
             }
             
             .news-whatsapp-btn:hover {

@@ -12,10 +12,15 @@ const membersData = [
             'Saturday': '3:00PM – 11:00PM', 
             'Sunday': '12:00PM – 7:00PM'
         },
-        specialties: ['Professional Stringing', 'Racket Maintenance', 'Equipment Consultation'],
+        certifications: {
+            basicTheory: true,
+            basicCustomization: true,
+            tennisStringing: true,
+            badmintonStringing: true,
+            squashStringing: null
+        },
         certification: 'USRSA Certified',
-        
-        mapPosition: { top: '42%', left: '35%' } // KL position
+        mapPosition: { top: '42%', left: '35%' }
     },
     {
         id: 'yang',
@@ -30,9 +35,15 @@ const membersData = [
             'Saturday':'11:00AM - 7:00PM',
             'Sunday': '1:00PM – 7:00PM'
         },
-        specialties: ['Professional Stringing', 'String Analysis', 'Performance Optimization'],
+        certifications: {
+            basicTheory: true,
+            basicCustomization: true,
+            tennisStringing: true,
+            badmintonStringing: true,
+            squashStringing: true
+        },
         certification: 'USRSA Certified',
-        mapPosition: { top: '72%', left: '40%' } // Johor position
+        mapPosition: { top: '72%', left: '40%' }
     },
     {
         id: 'yk',
@@ -44,13 +55,19 @@ const membersData = [
         address: '26A, Jalan SS 21/62, Damansara Utama, 47400 Petaling Jaya, Selangor',
         businessHours: {
             'Monday': 'Off',
-            'Tuesday - Friday': '<br>10:00AM – 2:00PM, <br>4:00 PM – 8:00 PM',
+            'Tuesday - Friday': '10:00AM – 2:00PM, 4:00 PM – 8:00 PM',
             'Saturday': '10:00AM – 6:00PM',
             'Sunday': '12:00PM – 6:00PM'
         },
-        specialties: ['Professional Stringing', 'Racket Customization', 'Technical Advice'],
+        certifications: {
+            basicTheory: true,
+            basicCustomization: true,
+            tennisStringing: false,
+            badmintonStringing: true,
+            squashStringing: null
+        },
         certification: 'USRSA Certified',
-        mapPosition: { top: '40%', left: '33%' } // Selangor position
+        mapPosition: { top: '40%', left: '33%' }
     },
     {
         id: 'kenneth',
@@ -64,9 +81,15 @@ const membersData = [
             'Monday - Saturday': '10:00AM – 6:00PM',
             'Sunday': 'Closed'
         },
-        specialties: ['Professional Stringing', 'Sports Equipment', 'String Consultation'],
+        certifications: {
+            basicTheory: true,
+            basicCustomization: true,
+            tennisStringing: true,
+            badmintonStringing: true,
+            squashStringing: false
+        },
         certification: 'USRSA Certified',
-        mapPosition: { top: '45%', left: '70%' } // Sarawak Bintulu position
+        mapPosition: { top: '45%', left: '70%' }
     },
     {
         id: 'hong',
@@ -79,9 +102,15 @@ const membersData = [
         businessHours: {
             'Monday - Sunday': '10:00AM – 6:00PM'
         },
-        specialties: ['Professional Stringing', 'Sports Retail', 'Equipment Services'],
+        certifications: {
+            basicTheory: true,
+            basicCustomization: true,
+            tennisStringing: true,
+            badmintonStringing: true,
+            squashStringing: null
+        },
         certification: 'USRSA Certified',
-        mapPosition: { top: '35%', left: '72%' } // Sarawak Limbang position
+        mapPosition: { top: '35%', left: '72%' }
     }
 ];
 
@@ -94,7 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializePage() {
     updateStats();
     populateMembers();
-    
 }
 
 function updateStats() {
@@ -115,6 +143,45 @@ function populateMembers() {
         const memberCard = createMemberCard(member);
         membersGrid.appendChild(memberCard);
     });
+}
+
+// Helper function to get certification status text
+function getCertificationStatus(value) {
+    if (value === true) return 'Pass';
+    if (value === false) return 'Failed';
+    return '-';
+}
+
+// Helper function to get certification status class
+function getCertificationStatusClass(value) {
+    if (value === true) return 'cert-pass';
+    if (value === false) return 'cert-failed';
+    return 'cert-pending';
+}
+
+// Helper function to render specialties section
+function renderSpecialties(certifications) {
+    const specialties = [
+        { key: 'basicTheory', label: 'Basic Theory', icon: 'fas fa-book' },
+        { key: 'basicCustomization', label: 'Basic Customization', icon: 'fas fa-tools' },
+        { key: 'tennisStringing', label: 'Tennis Stringing', icon: 'fas fa-circle' },
+        { key: 'badmintonStringing', label: 'Badminton Stringing', icon: 'fas fa-table-tennis' },
+        { key: 'squashStringing', label: 'Squash Stringing', icon: 'fas fa-square' }
+    ];
+    
+    return specialties.map(spec => {
+        const value = certifications[spec.key];
+        const status = getCertificationStatus(value);
+        const statusClass = getCertificationStatusClass(value);
+        
+        return `
+            <div class="specialty-item ${statusClass}">
+                <i class="${spec.icon}"></i>
+                <span class="specialty-label">${spec.label}</span>
+                <span class="specialty-status">${status}</span>
+            </div>
+        `;
+    }).join('');
 }
 
 function createMemberCard(member) {
@@ -141,21 +208,13 @@ function createMemberCard(member) {
                 <i class="fas fa-phone"></i>
                 <span>${member.contact}</span>
             </div>
-
-<div class="detail-item">
-    <i class="fas fa-clock"></i>
-    <div class="business-hours-container">
-        <div class="condensed-hours">
-            <strong>Hours:</strong> ${getMainBusinessHours(member.businessHours)}
-            <small style="color: var(--gray-color); display: block; margin-top: 0.2rem;">
-                Click for full schedule
-            </small>
         </div>
-    </div>
-</div>
-
+        <div class="specialties-section">
+            <h4 class="specialties-title"><i class="fas fa-star"></i> Specialties</h4>
+            <div class="specialties-list">
+                ${renderSpecialties(member.certifications)}
+            </div>
         </div>
-
         <div class="contact-actions">
             <a href="tel:${member.contact.replace(/\s/g, '')}" class="contact-btn">
                 <i class="fas fa-phone"></i>
@@ -170,12 +229,6 @@ function createMemberCard(member) {
     
     return card;
 }
-
-function getMainBusinessHours(businessHours) {
-    const firstEntry = Object.entries(businessHours)[0];
-    return `${firstEntry[0]}: ${firstEntry[1]}`;
-}
-
 
 function setupEventListeners() {
     // Close modal when clicking outside
@@ -192,22 +245,58 @@ function setupEventListeners() {
         }
     });
     
-    // Handle window resize to reposition markers
-    window.addEventListener('resize', function() {
-        setupMapMarkers();
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    const clearSearch = document.getElementById('clearSearch');
+    
+    if (searchInput && clearSearch) {
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            clearSearch.style.display = searchTerm ? 'block' : 'none';
+            filterMembers(searchTerm);
+        });
+        
+        clearSearch.addEventListener('click', function() {
+            searchInput.value = '';
+            this.style.display = 'none';
+            filterMembers('');
+        });
+    }
+    
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filterValue = this.dataset.filter;
+            filterMembersByState(filterValue);
+        });
     });
+}
 
-    const floatingContact = document.getElementById('floatingContact');
-    const floatingMenu = document.getElementById('floatingMenu');
+function filterMembers(searchTerm) {
+    const memberCards = document.querySelectorAll('.member-card');
     
-    floatingContact.addEventListener('click', function() {
-        floatingMenu.classList.toggle('active');
+    memberCards.forEach(card => {
+        const memberData = card.textContent.toLowerCase();
+        if (memberData.includes(searchTerm)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
     });
+}
+
+function filterMembersByState(state) {
+    const memberCards = document.querySelectorAll('.member-card');
     
-    // Close floating menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!floatingContact.contains(e.target) && !floatingMenu.contains(e.target)) {
-            floatingMenu.classList.remove('active');
+    memberCards.forEach((card, index) => {
+        const member = membersData[index];
+        if (state === 'all' || member.state === state) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
         }
     });
 }
@@ -245,7 +334,9 @@ function openMemberModal(member) {
         
         <div class="modal-detail-item">
             <h4><i class="fas fa-star"></i> Specialties</h4>
-            <p>${member.specialties.join(' • ')}</p>
+            <div class="modal-specialties-list">
+                ${renderSpecialties(member.certifications)}
+            </div>
         </div>
         
         <div class="modal-contact-actions">
@@ -302,208 +393,6 @@ function removeMember(memberId) {
         membersData.splice(index, 1);
         initializePage();
     }
-}
-
-// Add to setupEventListeners function
-function setupEventListeners() {
-    // Existing code...
-    
-    // Search functionality
-    const searchInput = document.getElementById('searchInput');
-    const clearSearch = document.getElementById('clearSearch');
-    
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        clearSearch.style.display = searchTerm ? 'block' : 'none';
-        filterMembers(searchTerm);
-    });
-    
-    clearSearch.addEventListener('click', function() {
-        searchInput.value = '';
-        this.style.display = 'none';
-        filterMembers('');
-    });
-    
-    // Filter buttons
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            
-            const filterValue = this.dataset.filter;
-            filterMembersByState(filterValue);
-        });
-    });
-}
-
-function filterMembers(searchTerm) {
-    const memberCards = document.querySelectorAll('.member-card');
-    
-    memberCards.forEach(card => {
-        const memberData = card.textContent.toLowerCase();
-        if (memberData.includes(searchTerm)) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
-        }
-    });
-}
-
-function filterMembersByState(state) {
-    const memberCards = document.querySelectorAll('.member-card');
-    
-    memberCards.forEach((card, index) => {
-        const member = membersData[index];
-        if (state === 'all' || member.state === state) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
-        }
-    });
-}
-
-// Option 1: Show current day + toggle for full schedule
-function createMemberCard(member) {
-    const card = document.createElement('div');
-    card.className = 'member-card';
-    card.onclick = () => openMemberModal(member);
-    
-    const initials = member.name.split(' ').map(n => n[0]).join('').toUpperCase();
-    const currentDayInfo = getCurrentDayBusinessHours(member.businessHours);
-    
-    card.innerHTML = `
-        <div class="member-header">
-            <div class="member-avatar">${initials}</div>
-            <div class="member-info">
-                <h3>${member.name} <span class="certified-badge"><i class="fas fa-certificate"></i> USRSA CERTIFIED</span></h3>
-                <div class="location-name">${member.location}</div>
-            </div>
-        </div>
-        <div class="member-details">
-            <div class="detail-item">
-                <i class="fas fa-map-marker-alt"></i>
-                <span>${member.city}, ${member.state}</span>
-            </div>
-            <div class="detail-item">
-                <i class="fas fa-phone"></i>
-                <span>${member.contact}</span>
-            </div>
-            <div class="detail-item">
-                <i class="fas fa-clock"></i>
-                <div class="business-hours-container">
-                    <div class="current-hours-display">
-                        <div class="hour-row">
-                            <strong>${currentDayInfo.day}:</strong> ${currentDayInfo.hours}
-                        </div>
-                        <button class="show-all-hours-btn" onclick="toggleAllHours(event, this)">
-                            <i class="fas fa-chevron-down"></i> View All Hours
-                        </button>
-                    </div>
-                    <div class="all-hours-display" style="display: none;">
-                        ${Object.entries(member.businessHours).map(([day, hours]) => 
-                            `<div class="hour-row"><strong>${day}:</strong> ${hours}</div>`
-                        ).join('')}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="contact-actions">
-            <a href="tel:${member.contact.replace(/\s/g, '')}" class="contact-btn">
-                <i class="fas fa-phone"></i>
-                Call
-            </a>
-            <a href="https://wa.me/${member.contact.replace(/[\s+-]/g, '')}" class="contact-btn whatsapp-btn" target="_blank">
-                <i class="fab fa-whatsapp"></i>
-                WhatsApp
-            </a>
-        </div>
-    `;
-    
-    return card;
-}
-
-// Helper function to get current day's business hours
-function getCurrentDayBusinessHours(businessHours) {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const today = days[new Date().getDay()];
-    
-    // Check if today exists in business hours
-    if (businessHours[today]) {
-        return { day: 'Today', hours: businessHours[today] };
-    }
-    
-    // Check for range patterns like "Monday - Friday"
-    for (const [dayRange, hours] of Object.entries(businessHours)) {
-        if (dayRange.includes('-') && dayRange.includes(today)) {
-            return { day: 'Today', hours: hours };
-        }
-        if (dayRange.toLowerCase().includes('weekday') && [1,2,3,4,5].includes(new Date().getDay())) {
-            return { day: 'Today', hours: hours };
-        }
-        if (dayRange.toLowerCase().includes('weekend') && [0,6].includes(new Date().getDay())) {
-            return { day: 'Today', hours: hours };
-        }
-    }
-    
-    // Fallback to first entry
-    const firstEntry = Object.entries(businessHours)[0];
-    return { day: firstEntry[0], hours: firstEntry[1] };
-}
-
-// Toggle function for showing all hours
-function toggleAllHours(event, button) {
-    event.stopPropagation(); // Prevent opening modal
-    
-    const container = button.closest('.business-hours-container');
-    const currentDisplay = container.querySelector('.current-hours-display');
-    const allDisplay = container.querySelector('.all-hours-display');
-    const icon = button.querySelector('i');
-    const text = button.querySelector('span') || button.childNodes[1];
-    
-    if (allDisplay.style.display === 'none') {
-        allDisplay.style.display = 'block';
-        currentDisplay.style.display = 'none';
-        icon.className = 'fas fa-chevron-up';
-        button.innerHTML = '<i class="fas fa-chevron-up"></i> Show Less';
-    } else {
-        allDisplay.style.display = 'none';
-        currentDisplay.style.display = 'block';
-        icon.className = 'fas fa-chevron-down';
-        button.innerHTML = '<i class="fas fa-chevron-down"></i> View All Hours';
-    }
-}
-
-// Option 2: Smart condensed format
-function getCondensedBusinessHours(businessHours) {
-    const entries = Object.entries(businessHours);
-    
-    // If only 1-2 entries, show all
-    if (entries.length <= 2) {
-        return entries.map(([day, hours]) => `<div class="hour-row"><strong>${day}:</strong> ${hours}</div>`).join('');
-    }
-    
-    // Otherwise show first entry + "& more"
-    const first = entries[0];
-    return `
-        <div class="hour-row"><strong>${first[0]}:</strong> ${first[1]}</div>
-        <div class="hour-row more-hours">+ ${entries.length - 1} more schedules</div>
-    `;
-}
-
-// Option 3: Status-based display
-function getBusinessStatus(businessHours) {
-    const now = new Date();
-    const currentDay = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][now.getDay()];
-    const currentTime = now.getHours() * 100 + now.getMinutes();
-    
-    // Simple status check (you'd need to parse the actual hours for full accuracy)
-    const todayHours = businessHours[currentDay] || businessHours['Monday - Friday'] || businessHours['Weekdays'];
-    
-    if (!todayHours || todayHours.toLowerCase().includes('closed') || todayHours.toLowerCase().includes('off')) {
-        return { status: 'Closed', class: 'closed', hours: 'Closed today' };
-    }
-    
-    return { status: 'Open', class: 'open', hours: todayHours };
 }
 
 // Export functions for external use (if needed)
